@@ -1,0 +1,590 @@
+:root {
+  --font-main: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+
+  --weight-light: 400;
+  --weight-medium: 600;
+  --weight-bold: 800;
+  --weight-black: 900;
+}
+/* ---- Base reset ---- */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+
+/* ---- Background gradient ---- */
+body {
+  font-family: var(--font-main);
+  color: #e7edf7;
+  background: radial-gradient(1100px 700px at 20% 10%, #152347 0%, #0b132a 50%, #070d1e 100%);
+  overflow-x: hidden;      /* keep horizontal hidden */
+  overflow-y: auto;        /* allow vertical scroll */
+}
+
+/* ---- Canvas fills screen behind content ---- */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;           /* behind everything */
+}
+
+/* ---- Content placeholder (we'll add logos/projects later) ---- */
+/* Full screen hero centered */
+.hero {
+position: relative;
+z-index: 1;
+height: 100vh;
+width: 100%;
+display: flex;
+flex-direction: column;   /* stack name + subtitle */
+align-items: center;      /* center horizontally */
+justify-content: center;  /* center vertically */
+text-align: center;
+padding: 0 24px;
+overflow: hidden;         /* prevent scrollbars if name is long */
+}
+
+/* Wrapper */
+.hero-inner {
+/* use most of the viewport, but keep a margin on both sides */
+max-width: none;   /* ← change from 1000px */
+padding-inline: 4vw;            /* small side margin */
+}
+
+.hero-links {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  justify-content: center;
+}
+
+/* square icon buttons */
+.icon-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+.icon-btn:hover {
+  border-color: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+}
+.icon-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* resume button (pill style) */
+.resume-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 14px;
+  background: rgba(120,130,255,.22);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.resume-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.3); /* match icon-btn hover */
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3); /* optional glow */
+}
+.resume-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
+
+
+/* Big name (like his "Hi, I'm Cian") */
+/* Big name */
+.name {
+margin: 0 0 0px;
+font-weight: 700;
+line-height: 1.1;
+letter-spacing: -1px;
+font-size: clamp(1rem, 10vw, 5rem); /* scales down more on small screens */
+color: #f2f6ff;
+text-align: center;   /* make sure it's centered in container */
+}
+
+/* Typed subtitle */
+.typed-wrap {
+font-size: clamp(0.8rem, 5vw, 2rem); /* 24px min, scales up to ~64px */
+font-weight: 200;
+color: #cdd6e8;
+display: inline-flex;
+align-items: center;
+min-height: 2em;
+}
+
+
+/* Cursor */
+.cursor {
+width: 0.5em;
+height: 1.2em;
+margin-left: 8px;
+background: #e7edf7;
+display: inline-block;
+animation: blink 1s steps(1, end) infinite;
+}
+
+@keyframes blink {
+0%, 49% { opacity: 1; }
+50%, 100% { opacity: 0; }
+}
+
+
+.eyebrow {
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-size: .8rem;
+  opacity: .65;
+}
+h1 {
+  margin: 10px 0 12px;
+  font-weight: 800;
+  line-height: 1.05;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+}
+.sub {
+  max-width: 62ch;
+  opacity: .8;
+  font-size: clamp(1rem, 1.7vw, 1.15rem);
+}
+
+/* tasteful glow dots overlay to add depth (not moving) */
+.soft-glow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(400px 280px at 82% 20%, rgba(58,104,176,.07), transparent 60%),
+    radial-gradient(320px 220px at 10% 70%, rgba(38,74,140,.08), transparent 60%);
+  mix-blend-mode: screen;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cursor { animation: none; }
+}
+
+/* Responsive: 2 columns on tablets, 1 on phones */
+@media (max-width: 1000px) {
+  .stack-grid { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
+}
+@media (max-width: 640px) {
+  .stack-grid { grid-template-columns: 1fr; }
+}
+
+.stack-item:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.16);
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+}
+
+.stack-item span {
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  color: rgba(231,237,247,.92);
+  font-weight: var(--weight-medium, 600);
+  letter-spacing: .01em;
+}
+
+/* Full-width section with side padding; sits above your canvas */
+.stack { z-index: 1; position: relative; padding: 90px clamp(16px, 4vw, 64px) 110px; }
+.stack-inner 
+{ max-width: 
+  none; width: 100%; 
+  margin: 0; 
+}
+
+/* Bigger eyebrow label */
+.stack-eyebrow{
+  font-size: clamp(0.5rem, 2vw, 1rem);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  opacity: .9;
+  margin-bottom: 18px;
+  font-weight: var(--weight-medium, 600);
+}
+
+/* Category headings (big but below the hero’s H1 scale) */
+.stack-title{
+  margin: 28px 0 18px;
+  font-weight: var(--weight-bold, 800);
+  letter-spacing: -.5px;
+  color: #dfe5f3;
+  font-size: clamp(1rem, 4.6vw, 2.5rem);
+}
+
+
+/* Card row: icon + label + optional skill pill */
+.stack-item{
+  display: flex; align-items: center; gap: clamp(10px, 1.4vw, 16px);
+  padding: clamp(10px, 1.4vw, 14px) clamp(12px, 1.6vw, 16px);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(2px);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+.stack-item:hover{ transform: translateY(-3px); border-color: rgba(255,255,255,0.16); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+
+.stack-item span{ font-size: clamp(1rem, 1.8vw, 1.15rem); color: rgba(231,237,247,.95); font-weight: var(--weight-medium, 600); letter-spacing: .01em; }
+
+
+/* ========== Square cards layout ========== */
+.stack-grid{
+  /* fixed-ish box size with sane max on big screens */
+  --card: clamp(75px, 16vw, 150px);
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, var(--card))); /* fixed-width columns */
+  justify-content: start;   /* center the row */
+  gap: clamp(16px, 2.4vw, 28px);
+  width: 100%;
+}
+
+/* Make each item a square box */
+.stack-item{
+  width: var(--card);
+  height: var(--card);
+  aspect-ratio: 1 / 1;                   /* keep perfectly square if height/width changes */
+  display: flex;
+  flex-direction: column;                /* top → bottom */
+  align-items: center;
+  justify-content: space-between;        /* icon top, pill middle, name bottom */
+  text-align: center;
+
+  padding: 12px 10px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(2px);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+.stack-item:hover{ transform: translateY(-4px); border-color: rgba(255,255,255,0.16); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+
+.stack-item .pill{ order: 2; }
+.stack-item span { order: 3; }
+
+/* Icon sizing (top) */
+.stack-item img{
+  width: calc(var(--card) * 0.35);
+  height: auto;
+  margin-top: calc(var(--card) * 0.05);
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.45)) brightness(1.05);
+}
+
+/* Proficiency pill (middle) */
+.pill{
+  margin: 0;                    /* remove previous margin-left:auto */
+  font-style: normal;
+  font-size: calc(var(--card) * 0.06);
+  padding: calc(var(--card) * 0.02) calc(var(--card) * 0.04);
+  border-radius: 999px;
+  border: 1px solid;
+  opacity: .95;
+}
+
+/* Name label (bottom) */
+.stack-item span{
+  font-size: calc(var(--card) * 0.09); /* base font size ~9% of box */
+  color: rgba(231,237,247,.95);
+  font-weight: var(--weight-medium, 600);
+  letter-spacing: .01em;
+  margin-bottom: calc(var(--card) * 0.05);;
+}
+
+/* Force specific logos (like ChatGPT) to appear white */
+.stack-item img.chatgpt-logo {
+  filter: brightness(0) invert(1);  /* turns dark logo pure white */
+}
+
+
+/* (Optional) keep boxes a touch smaller on very small screens */
+@media (max-width: 420px){
+  .stack-grid{ --card: 128px; }
+}
+
+/* ===== Projects section (inherits your theme) ===== */
+.projects {
+  position: relative;
+  z-index: 1;
+  padding: none;
+}
+.projects-inner { 
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0 clamp(16px, 4vw, 64px); /* <-- same side padding for both */
+}
+
+/* Grid */
+.projects-grid{
+  display: flex;
+  flex-wrap: wrap;                 /* allow a new row on small widths */
+  gap: clamp(16px, 2.4vw, 28px);
+  justify-content: center;         /* center the row */
+  align-items: stretch;
+  padding: 0;
+}
+
+/* Card */
+.project-card {
+  flex: 1 1 520px;
+  min-width: 300px;
+  max-width: 1000px;
+
+  aspect-ratio: 1 / 1;  /* 👈 ensures width = height */
+  
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.project-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,255,255,0.16);
+  box-shadow: 0 18px 42px rgba(0,0,0,.35);
+}
+
+.project-media{
+  height: 50%;           /* 50% of the card's height */
+  width: 100%;
+  overflow: hidden;
+  background: #0f1a34;
+}
+.project-media img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Let the body fill the rest */
+.project-body{
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Badge */
+.badge{
+  position: absolute;
+  top: 14px; right: 14px;
+  font-size: .8rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(120,130,255,.22);
+  color: #e9ecff;
+  border: 1px solid rgba(160,170,255,.4);
+  backdrop-filter: blur(2px);
+}
+
+/* Body */
+.project-body {
+  flex: 1;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.project-title{
+  margin: 4px 0 0;
+  font-size: clamp(1.15rem, 2.2vw, 1.35rem);
+  font-weight: 700;
+  color: #eaf1ff;
+}
+.project-desc{
+  margin: 0;
+  color: rgba(231,237,247,.82);
+  line-height: 1.55;
+  font-size: clamp(.95rem, 1.8vw, 1.02rem);
+}
+
+/* Chips */
+.chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+.chip{
+  font-size: .85rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: rgba(231,237,247,.92);
+}
+
+/* Metrics */
+.metric-row{
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 12px;
+}
+.metric .k{
+  font-weight: 800;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: #eaf1ff;
+}
+.metric .l{
+  opacity: .75;
+  font-size: .85rem;
+}
+
+/* CTAs */
+.cta-row{
+  margin-top: 6px;
+  display:flex; gap:10px; flex-wrap:wrap;
+}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+.btn.ghost{
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #e7edf7;
+}
+.btn.ghost:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,0.25); }
+.btn.solid{
+  background: rgba(120,130,255,.22);
+  border: 1px solid rgba(160,170,255,.4);
+  color: #e9ecff;
+}
+.btn.solid:hover{ transform: translateY(-1px); background: rgba(120,130,255,.3); }
+
+/* ===== Contact ===== */
+.contact{
+  position: relative;
+  z-index: 1;
+  padding: 80px clamp(16px, 4vw, 64px) 110px;
+}
+
+.contact-inner{ max-width: 1100px; margin: 0 auto; }
+
+.contact-title{
+  margin: 0 0 28px;
+  text-align: center;
+  font-weight: var(--weight-bold, 800);
+  letter-spacing: -.5px;
+  font-size: clamp(1.8rem, 4.8vw, 2.6rem);
+  color: #eaf1ff;
+}
+
+@media (max-width: 900px){
+  .contact-grid{ grid-template-columns: 1fr; }
+}
+
+/* left card */
+.contact-card{
+  padding: clamp(16px, 2.2vw, 22px);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(2px);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+
+.contact-eyebrow{
+  margin: 0 0 10px;
+  font-size: .95rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  opacity: .85;
+}
+
+.contact-list{
+  margin: 0; padding: 0; list-style: none;
+  display: grid; gap: 10px;
+}
+.contact-list a{
+  color: rgba(231,237,247,.92);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(231,237,247,.25);
+}
+.contact-list a:hover{ border-color: rgba(231,237,247,.55); }
+
+/* form */
+.contact-form{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(12px, 2vw, 18px);
+  padding: clamp(16px, 2.2vw, 22px);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(2px);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+@media (max-width: 700px){
+  .contact-form{ grid-template-columns: 1fr; }
+}
+
+.field{ display: grid; gap: 8px; }
+.field span{ font-size: .95rem; opacity: .9; }
+
+.contact-form input,
+.contact-form textarea{
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #20242f;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #e7edf7;
+  outline: none;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.contact-form textarea{ resize: vertical; }
+
+.contact-form input:focus,
+.contact-form textarea:focus{
+  border-color: rgba(255,255,255,0.3);
+  box-shadow: 0 0 0 4px rgba(120,130,255,.12);
+}
+
+/* textarea spans full width */
+.field-textarea{ grid-column: 1 / -1; }
+
+/* submit */
+.contact-actions{
+  grid-column: 1 / -1;
+  display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px;
+}
+
+.contact-submit{
+  border-radius: 14px;
+  gap: 10px;
+}
+.contact-submit svg{ width: 18px; height: 18px; stroke: currentColor; }
+
+/* Center the contact form block */
+.contact-grid{
+  display: grid;
+  grid-template-columns: 1fr;      /* single column */
+  place-items: center;             /* center horizontally + vertically */
+}
+
+/* Keep the form at a readable width */
+.contact-form{
+  width: 100%;
+  max-width: 720px;                /* tweak as you like (650–760px works well) */
+  justify-self: center;            /* ensure centering in the grid */
+}
+
+/* Form fields remain two columns on wide screens; stack on small */
+@media (max-width: 700px){
+  .contact-form{ grid-template-columns: 1fr; }
+}
