@@ -339,16 +339,29 @@ h1 {
 }
 
 /* Card */
-.project-card {
-  flex: 1 1 520px;
-  min-width: 300px;
-  max-width: 1000px;
+/* --- Projects: square by default, but grow if content needs --- */
+/* Projects grid = horizontal row that wraps */
+.projects-grid {
+  display: flex;
+  flex-wrap: wrap;                 /* wrap to next line if space runs out */
+  gap: clamp(16px, 2.4vw, 28px);
+  justify-content: flex-start;     /* align left (use center if you prefer) */
+  align-items: stretch;            /* equal height rows */
+}
 
-  aspect-ratio: 1 / 1;  /* 👈 ensures width = height */
-  
-  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+/* Each card = vertical column (media top, text below) */
+.project-card {
+  display: flex;
+  flex-direction: column;          /* stack image over body */
+  flex: 0 1 420px;                 /* grow/shrink, ~420px base width */
+  min-width: 300px;
+  max-width: 100%;
+
   background: rgba(255,255,255,0.035);
   border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
 }
 .project-card:hover {
   transform: translateY(-6px);
@@ -356,27 +369,36 @@ h1 {
   box-shadow: 0 18px 42px rgba(0,0,0,.35);
 }
 
-.project-media{
-  height: 50%;           /* 50% of the card's height */
+/* Image at top */
+.project-media {
   width: 100%;
-  overflow: hidden;
+  aspect-ratio: 16 / 9;            /* nice ratio instead of fixed 50% */
   background: #0f1a34;
+  overflow: hidden;
 }
-.project-media img{
+.project-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Let the body fill the rest */
+/* Body flexes naturally */
 .project-body {
-  height: auto;
-  flex: 1;
+  flex: 1 1 auto;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  min-width: 0;           /* prevent flex children from overflowing */
+  justify-content: space-between;
+  gap: 12px;
 }
+
+/* On smaller screens, cards just shrink/wrap */
+@media (max-width: 640px) {
+  .project-card {
+    flex: 1 1 100%;                /* single column stack */
+  }
+}
+
 
 /* Badge */
 .badge{
