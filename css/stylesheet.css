@@ -105,7 +105,6 @@ padding-inline: 4vw;            /* small side margin */
 }
 
 
-/* Big name (like his "Hi, I'm Cian") */
 /* Big name */
 .name {
 margin: 0 0 0px;
@@ -370,10 +369,13 @@ h1 {
 }
 
 /* Let the body fill the rest */
-.project-body{
-  height: 50%;
+.project-body {
+  height: auto;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  min-width: 0;           /* prevent flex children from overflowing */
 }
 
 /* Badge */
